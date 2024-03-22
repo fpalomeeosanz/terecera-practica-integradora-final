@@ -3,20 +3,22 @@ import mongoosePaginate from "mongoose-paginate-v2";
 
 const collection = "products";
 
-const productSchema= new mongoose.Schema({
+const productsSchema= new mongoose.Schema({
     title: {type: String,required:true},
     price: { type: Number,required:true,min:1},
+    description: { type: String, required: true },
     code: {type: String,required:true},
     stock: {type: Number,required:true},
-    category:{ type: String,required:true,enum: ['Deportes', 'Tecnología','Ropa']},
+    image: { type: String, required: true },
+    category:{ type: String,required:true,enum: ['Hospedaje', 'Alimentacion','Experiencias']},
     owner:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"users"
     }
 });
 
-productSchema.plugin(mongoosePaginate);
+productsSchema.plugin(mongoosePaginate);
 
-const productsModel = mongoose.model(collection, productSchema);
+const productsModel = mongoose.model(collection, productsSchema);
 
 export default productsModel; 

@@ -11,7 +11,7 @@ export const checkRole = (roles)=>{
         }
         next();
     }
-}
+} 
 
 export const verifyEmailTokenMW = () => {
 

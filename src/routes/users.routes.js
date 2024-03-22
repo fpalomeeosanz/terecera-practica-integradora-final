@@ -6,4 +6,6 @@ const router = Router();
 
 router.put("/premium/:uid", checkRole(["admin"]) , UserController.changeRol);
 
+router.put('/users/:uid/role', checkRole(["admin"]), UserController.changeRol);
+
 export { router as usersRouter };
