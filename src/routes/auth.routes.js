@@ -1,4 +1,4 @@
-import {Router} from "express";
+import { Router } from "express";
 import passport from "passport";
 import { generateEmailToken, verifyEmailToken, isValidPassword, createHash } from "../utils.js";
 import  usersModel  from "../daos/models/usersModel.js";
@@ -35,7 +35,6 @@ router.post("/logout",(req,res)=>{
     });
 });
 
-
 router.post("/forgot-password", async (req,res)=>{
     try {
         const {email} = req.body;
@@ -45,8 +44,9 @@ router.post("/forgot-password", async (req,res)=>{
             res.send(`<div>Error no existe el usuario, vuelva a intentar: <a href="/forgot-password">Intente de nuevo</a></div>`)
         }
         
-        const token = generateEmailToken(email, 10);
+        const token = generateEmailToken(email, 60*3);
         console.log('object');
+        
         await sendRecoveryPass(email, token);
         res.send("Se envio el correo de recuperacion.")
 
@@ -56,7 +56,6 @@ router.post("/forgot-password", async (req,res)=>{
     }
 
 });
-
 
 router.post("/reset-password", async (req,res)=>{
     try {

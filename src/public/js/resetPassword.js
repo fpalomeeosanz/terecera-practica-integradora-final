@@ -1,4 +1,4 @@
-const form = document.getElementById("restartPasswordForm");
+const form = document.getElementById("resetPasswordForm");
 
 form.addEventListener("submit", e =>{
     e.preventDefault();
@@ -6,7 +6,7 @@ form.addEventListener("submit", e =>{
     const obj = {}; 
     data.forEach((value,key)=>obj[key]=value);
     
-    fetch("/api/sessions/restartPassword", {
+    fetch("/api/sessions/resetPassword", {
         method: "POST",
         body:JSON.stringify(obj),
         headers:{

@@ -34,13 +34,14 @@ router.get('/profile', (req,res)=>{
 });
 
 //aplicar
+
+router.get("/forgot-password", (req,res)=>{
+    res.render("forgotPassword")
+});
+
 router.get('/reset-password', verifyEmailTokenMW(), (req,res)=>{
     const token = req.query.token;
     res.render("resetPassword",{token})
-})
-
-router.get('/resetPassword', publicAccess, (req,res)=>{
-    res.render("resetPassword");
 });
 
 

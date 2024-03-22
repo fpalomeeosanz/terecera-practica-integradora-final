@@ -1,15 +1,15 @@
-<div>
-    <h1>Login</h1>
-    <form id="loginForm">
-        <label>Email</label>
-        <input name="email">
-        <br/>
-        <label>Contraseña</label>
-        <input name="password" type="password">
-        <input type="submit">
-    </form>
-    <p>¿No estás registrado? <a href="/register">Regístrate aquí</a></p>
-    <p>¿Usas gihub? <a href="/api/sessions/github">Entra con GitHub</a></p>
-    <p>¿Olvidaste tu contraseña? <a href="/resetPassword">Restáurala aquí</a></p>
-</div>
-<script src="/js/login.js"></script>
+<h2>Pagina de login</h2>
+{{message}}
+<form method="post" action="/api/sessions/login">
+    <input type="email" placeholder="correo" name="email"/>
+    <br/><br/>
+    <input type="password" placeholder="contraseña" name="password"/>
+    <br/><br/>
+    <button type="submit">Iniciar sesion</button>
+</form>
+<hr>
+<p>¿Usas gihub? <a href="/api/sessions/github">Entra con GitHub</a></p>
+<hr>
+<a href="/forgot-password"><button>¿Olvidaste tu contraseña?</button></a>
+<hr>
+<p>¿No estás registrado? <a href="/register">Regístrate aquí</a></p>

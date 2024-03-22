@@ -1,23 +1,14 @@
-<div>
-    <h1>Registro</h1>
-    <form id="registerForm">
-        <label>Nombre</label>
-        <input name="first_name">
-        <br/>
-        <label>Apellido</label>
-        <input name="last_name">
-        <br/>
-        <label>Email</label>
-        <input name="email">
-        <br/>
-        <label>Edad</label>
-        <input name="age">
-        <br/>
-        <label>Contraseña</label>
-        <input name="password" type="password">
-        <br/>
-        <input type="submit">
-    </form>
-    <p>¿Ya tienes cuenta? <a href="/login">Ingresa aquí</a></p>
-</div>
-<script src="/js/register.js"></script>
+<h2>Pagina de Registro</h2>
+<form method="post" action="/api/sessions/signup">
+    <input type="text" placeholder="nombre" name="name"/>
+    <br/><br/>
+    <input type="email" placeholder="correo" name="email"/>
+    <br/><br/>
+    <input type="password" placeholder="contraseña" name="password"/>
+    <br/><br/>
+    <button type="submit">registrarse</button>
+</form>
+<hr>
+<a href="/forgot-password">
+    <button>Restablecer constraseña</button>
+</a>
