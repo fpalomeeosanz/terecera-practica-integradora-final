@@ -52,7 +52,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //ROUTES
-app.use( viewsRouter);
+app.use("/", viewsRouter);
 app.use("/api/sessions", authRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { verifyEmailTokenMW } from "../middlewares/auth.js";
+import usersModel from "../daos/models/usersModel.js";
 
 const router = Router();
 
@@ -29,8 +30,9 @@ router.get('/login', publicAccess, (req,res)=>{
     res.render('login')
 });
 
-router.get('/profile', (req,res)=>{
-    res.send(`Bienvenido ${req.user.email} <a href="/">home</a>`);
+router.get('/profile', publicAccess, (req,res)=>{;
+    res.render('profile', {user:req.session.user})
+    //res.send(`Bienvenido ${req.user.email} <a href="/">home</a>`)
 });
 
 router.get("/forgot-password", (req,res)=>{
@@ -47,6 +49,13 @@ router.get("/current", (req, res) => {
     const user = req.user;
     res.send(user);
 
+});
+
+router.get('/users', async (req,res) => {
+    
+    const users = await usersModel.find().lean();
+    
+    res.render("users", {users, isAdmin: true})
 });
 
 

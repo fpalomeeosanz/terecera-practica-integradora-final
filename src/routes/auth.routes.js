@@ -9,7 +9,7 @@ const router = Router();
 router.post("/signup", passport.authenticate("signupStrategy",{
     failureRedirect:"/api/sessions/failure-signup"
 }), (req,res)=>{
-    res.send("registro exitoso")
+    //res.send("registro exitoso")
     res.redirect("/login");
 });
 
@@ -20,8 +20,8 @@ router.get("/failure-signup", (req,res)=>{
 router.post("/login", passport.authenticate("loginStrategy",{
     failureRedirect:"/api/sessions/failure-login"
 }), (req,res)=>{
-    res.send("login exitoso")
-    // res.redirect("/perfil");
+    res.redirect("/profile")
+    
 });
 
 router.get("/failure-login", (req,res)=>{
@@ -32,7 +32,7 @@ router.post("/logout",(req,res)=>{
     req.session.destroy((err)=>{
         if(err) return res.json({status:"error", message:"no se pudo cerrar la sesión"});
         res.json({status:"success", message:"sesion finalizada"});
-        res.redirect('/login');
+        res.redirect('/');
     });
 });
 
@@ -49,7 +49,7 @@ router.post("/forgot-password", async (req,res)=>{
         console.log('object');
         
         await sendRecoveryPass(email, token);
-        res.send("Se envio el correo de recuperacion.")
+        res.send(`<div>Se envió un correo de recuperacion <a href="/"><button>Ir a home</button></a></div>`)
 
     } catch (error) {
         

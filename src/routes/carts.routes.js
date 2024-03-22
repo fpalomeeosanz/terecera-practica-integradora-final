@@ -1,10 +1,19 @@
 import { Router } from "express";
 import  cartsModel from "../daos/models/cartsModel.js";
 import productsModel from "../daos/models/productsModel.js";
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import ticketsModel from "../daos/models/ticketsModel.js";
 
 const router = Router();
+
+router.get("/",async(req,res)=>{
+    try {
+        const cartCreated = await cartsModel.find();
+        res.send(cartCreated)
+    } catch (error) {
+        res.send(error.message)
+    }
+});
 
 router.post("/",async(req,res)=>{
     try {
