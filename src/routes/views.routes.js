@@ -33,8 +33,6 @@ router.get('/profile', (req,res)=>{
     res.send(`Bienvenido ${req.user.email} <a href="/">home</a>`);
 });
 
-//aplicar
-
 router.get("/forgot-password", (req,res)=>{
     res.render("forgotPassword")
 });
@@ -42,6 +40,13 @@ router.get("/forgot-password", (req,res)=>{
 router.get('/reset-password', verifyEmailTokenMW(), (req,res)=>{
     const token = req.query.token;
     res.render("resetPassword",{token})
+});
+
+router.get("/current", (req, res) => {
+    
+    const user = req.user;
+    res.send(user);
+
 });
 
 

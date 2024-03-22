@@ -1,11 +1,9 @@
-//importar las funciones de la capa de servicio
 import usersModel from "../daos/models/usersModel.js";
 
 class UserController{
     static changeRol = async(req,res)=>{
         try {
             const userId = req.params.uid;
-            //verificar si el usuario existe en la base de datos
             const user = await usersModel.findById(userId);
             const userRol = user.rol;
 

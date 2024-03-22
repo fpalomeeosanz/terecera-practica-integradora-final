@@ -9,7 +9,7 @@ const router = Router();
 router.post("/signup", passport.authenticate("signupStrategy",{
     failureRedirect:"/api/sessions/failure-signup"
 }), (req,res)=>{
-    // res.send("registro exitoso")
+    res.send("registro exitoso")
     res.redirect("/login");
 });
 
@@ -32,6 +32,7 @@ router.post("/logout",(req,res)=>{
     req.session.destroy((err)=>{
         if(err) return res.json({status:"error", message:"no se pudo cerrar la sesión"});
         res.json({status:"success", message:"sesion finalizada"});
+        res.redirect('/login');
     });
 });
 
@@ -91,6 +92,7 @@ router.post("/reset-password", async (req,res)=>{
     }
 
 });
+
 
 
 export { router as authRouter };
