@@ -3,13 +3,8 @@ import mongoose from "mongoose";
 const collection = "users";
 
 const userSchema = new mongoose.Schema({
-    first_name: {
+    name: {
         type: String,
-        required: true,
-    },
-    last_name: {
-        type: String,
-        required: true,
     },
     email: {
         type: String,
@@ -18,7 +13,6 @@ const userSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
-        required: true,
     },
     password: {
         type: String,
@@ -28,7 +22,7 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "carts",
     },
-    role: {
+    rol: {
         type: String,
         enum: ["user","admin","premiun" ],
         default: "user"
