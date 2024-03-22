@@ -45,10 +45,8 @@ router.get('/reset-password', verifyEmailTokenMW(), (req,res)=>{
 });
 
 router.get("/current", (req, res) => {
-    
     const user = req.user;
-    res.send(user);
-
+    res.render("current", { user });
 });
 
 router.get('/users', async (req,res) => {
@@ -58,5 +56,8 @@ router.get('/users', async (req,res) => {
     res.render("users", {users, isAdmin: true})
 });
 
+router.get('/products', async (req,res) => {
+    res.render("products");
+});
 
 export { router as viewsRouter };

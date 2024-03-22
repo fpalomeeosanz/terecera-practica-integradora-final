@@ -4,8 +4,13 @@ import productsModel from "../daos/models/productsModel.js";
 
 const router = Router();
 
-router.get("/",(req,res)=>{
-    res.send("todos los productos");
+router.get('/products', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10; 
+  
+    const productos = await productsModel.paginate({}, { page, limit });
+  
+    res.render('products', { productos });
 });
 
 router.post("/", checkRole(["admin","premium"]) , async(req,res)=>{
