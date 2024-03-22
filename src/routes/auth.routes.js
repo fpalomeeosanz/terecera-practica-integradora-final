@@ -28,12 +28,16 @@ router.get("/failure-login", (req,res)=>{
     res.send(`<div>Error al loguear al usuario, <a href="/login">Intente de nuevo</a></div>`);
 });
 
-router.post("/logout",(req,res)=>{
-    req.session.destroy((err)=>{
-        if(err) return res.json({status:"error", message:"no se pudo cerrar la sesión"});
-        res.json({status:"success", message:"sesion finalizada"});
-        res.redirect('/');
-    });
+router.get('/logout', (req,res)=>{
+    req.session.destroy(err=>{
+        if(err){
+            return res.status(500).send({
+                status: 'error',
+                error: 'No se pudo desloguear'
+            })
+        }
+        res.redirect('/')
+    })
 });
 
 router.post("/forgot-password", async (req,res)=>{
@@ -91,6 +95,13 @@ router.post("/reset-password", async (req,res)=>{
         res.send(`<div>Error, hable con el administrador.</div>`)
     }
 
+});
+
+router.get("/github", passport.authenticate("github", {scope:['user:email']}), async (req,res)=>{});
+
+router.get("/githubcallback", passport.authenticate("github", {failureRedirect:'/login'}), async (req,res)=>{
+    req.session.user = req.user;
+    res.redirect("/")
 });
 
 
