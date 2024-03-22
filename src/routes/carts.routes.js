@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { CartModel} from "../daos/models/cart.model.js";
-import { ProductModel} from "../daos/models/product.model.js";
+import  cartsModel from "../daos/models/cartsModel.js";
+import productsModel from "../daos/models/productsModel.js";
 import {v4 as uuidv4} from 'uuid';
-import { ticketsModel } from "../daos/models/ticket.model.js";
+import ticketsModel from "../daos/models/ticketsModel.js";
 
 const router = Router();
 
 router.post("/",async(req,res)=>{
     try {
-        const cartCreated = await CartModel.create({});
+        const cartCreated = await cartsModel.create({});
         res.send(cartCreated)
     } catch (error) {
         res.send(error.message)
@@ -18,7 +18,8 @@ router.post("/",async(req,res)=>{
 router.put("/",async(req,res)=>{
     try {
         const {cartId, productId, quantity} = req.body;
-        const cart = await CartModel.findById(cartId);
+        const cart = await cartsModel.findById(cartId);
+
         cart.products.push({id:productId,quantity:quantity});
         cart.save();
         res.send("producto agregado")
@@ -30,7 +31,8 @@ router.put("/",async(req,res)=>{
 router.post("/:cid/purchase",async(req,res)=>{
     try {
         const cartId = req.params.cid;
-        const cart = await CartModel.findById(cartId);
+        const cart = await cartsModel.findById(cartId);
+
         if(cart){
             if(!cart.products.length){
                 return res.send("es necesario que agrege productos antes de realizar la compra")
@@ -39,9 +41,10 @@ router.post("/:cid/purchase",async(req,res)=>{
             const rejectedProducts = [];
             for(let i=0; i<cart.products.length;i++){
                 const cartProduct = cart.products[i];
-                const productDB = await ProductModel.findById(cartProduct.id);
+                const productDB = await productsModel.findById(cartProduct.id);
+
                 //comparar la cantidad de ese producto en el carrito con el stock del producto
-                if(cartProduct.quantity<=productDB.stock){
+                if(cartProduct.quantity <= productDB.stock){
                     ticketProducts.push(cartProduct);
                 } else {
                     rejectedProducts.push(cartProduct);
@@ -49,12 +52,14 @@ router.post("/:cid/purchase",async(req,res)=>{
             }
             console.log("ticketProducts",ticketProducts)
             console.log("rejectedProducts",rejectedProducts)
+            
             const newTicket = {
                 code:uuidv4(),
                 purchase_datetime: new Date().toLocaleString(),
                 amount:500,
                 purchaser:req.user.email
             }
+            
             const ticketCreated = await ticketsModel.create(newTicket);
             res.send(ticketCreated)
         } else {
@@ -65,4 +70,4 @@ router.post("/:cid/purchase",async(req,res)=>{
     }
 });
 
-export {router as cartsRouter}
+export { router as cartsRouter }

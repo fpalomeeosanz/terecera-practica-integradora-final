@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ticketsCollection = "tickets";
+const collection = "tickets";
 
 const ticketsSchema = new mongoose.Schema({
     code:{
@@ -16,4 +16,6 @@ const ticketsSchema = new mongoose.Schema({
     }
 });
 
-export const ticketsModel = mongoose.model(ticketsCollection, ticketsSchema);
+const ticketsModel = mongoose.model(collection, ticketsSchema);
+
+export default ticketsModel;

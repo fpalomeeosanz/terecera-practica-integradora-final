@@ -1,7 +1,7 @@
 import {Router} from "express";
 import passport from "passport";
 import { generateEmailToken, verifyEmailToken, isValidPassword, createHash } from "../utils.js";
-import { UserModel } from "../daos/models/user.model.js";
+import  usersModel  from "../daos/models/usersModel.js";
 import { sendRecoveryPass } from "../utils/email.js";
 
 const router = Router();
@@ -39,7 +39,7 @@ router.post("/logout",(req,res)=>{
 router.post("/forgot-password", async (req,res)=>{
     try {
         const {email} = req.body;
-        const user = await UserModel.findOne({email});
+        const user = await usersModel.findOne({email});
         
         if(!user){
             res.send(`<div>Error no existe el usuario, vuelva a intentar: <a href="/forgot-password">Intente de nuevo</a></div>`)
@@ -69,7 +69,7 @@ router.post("/reset-password", async (req,res)=>{
         if(!validToken){
             return res.send(`El token ya no es valido`);
         }
-        const user = await UserModel.findOne({email});
+        const user = await usersModel.findOne({email});
 
         if(!user){
             return res.send("el Usuario no esta registrado")   
@@ -82,7 +82,7 @@ router.post("/reset-password", async (req,res)=>{
             ...user._doc,
             password:createHash(newPassword)
         }
-        const updateUser = await UserModel.findOneAndUpdate({email},userData);
+        const updateUser = await usersModel.findOneAndUpdate({email},userData);
 
         res.render("login", {message:"Contraseña actualizada"})
 

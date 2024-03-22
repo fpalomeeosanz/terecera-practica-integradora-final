@@ -8,7 +8,7 @@ import path from "path";
 import passport from "passport";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import { initializePassport } from "./config/passport.config.js";
+import initializePassport from "./config/passport.config.js";
 
 import { authRouter } from "./routes/auth.routes.js";
 import { cartsRouter } from "./routes/carts.routes.js";
@@ -16,24 +16,27 @@ import { productsRouter } from "./routes/products.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
 
-const port = 8080;
+//APP
 const app = express();
 
-//middleware
+//MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-app.listen(port,()=>console.log(`Server ok`));
+//SERVER
+const server = app.listen(options.server.port, ()=>{
+    console.log('Servidor todavia funcionando en el puerto 8080');
+})
 
-//configuracion de handlebars
+//HANDLEBARS
 app.engine('.hbs', engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname,"/views"));
 
-//conectamos la base de datos
+//BDD
 dbConection();
 
-//configuracion session
+//SESSION
 app.use(session({
     store: MongoStore.create({
         mongoUrl:options.mongo.url
@@ -43,12 +46,12 @@ app.use(session({
     saveUninitialized:false
 }));
 
-//configuracion de passport
+//PASSPORT
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-//routes
+//ROUTES
 app.use("/", viewsRouter);
 app.use("/api/sessions", authRouter);
 app.use("/api/products", productsRouter);

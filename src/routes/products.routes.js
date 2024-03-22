@@ -1,6 +1,6 @@
 import { Router } from "express";
-import {checkRole} from "../middlewares/auth.js";
-import { ProductModel} from "../daos/models/product.model.js";
+import { checkRole } from "../middlewares/auth.js";
+import productsModel from "../daos/models/productsModel.js";
 
 const router = Router();
 
@@ -13,8 +13,10 @@ router.post("/", checkRole(["admin","premium"]) , async(req,res)=>{
         const product = req.body;
         product.owner = req.user._id;
         console.log(product);
-        const productCreated = await ProductModel.create(product);
+
+        const productCreated = await productsModel.create(product);
         res.send(productCreated);
+
     } catch (error) {
         res.send(error.message);
     }
@@ -23,13 +25,15 @@ router.post("/", checkRole(["admin","premium"]) , async(req,res)=>{
 router.delete("/:pid", checkRole(["admin","premium"]) , async(req,res)=>{
     try {
         const productId = req.params.pid;
-        const product = await ProductModel.findById(productId);
+        const product = await productsModel.findById(productId);
+
         if(product){
             console.log("product", product);
             const productOwer = JSON.parse(JSON.stringify(product.owner));
             const userId = JSON.parse(JSON.stringify(req.user._id));
+
             if((req.user.rol === "premium" && productOwer == userId) || req.user.rol === "admin"){
-                await ProductModel.findByIdAndDelete(productId);
+                await productsModel.findByIdAndDelete(productId);
                 return res.json({status:"success", message:"producto eliminado"});
             } else {
                 res.json({status:"error", message:"no puedes borrar este producto"})
@@ -42,8 +46,8 @@ router.delete("/:pid", checkRole(["admin","premium"]) , async(req,res)=>{
     }
 });
 
-router.put("/:pid", checkRole(["admin","superadmin"]) , (req,res)=>{
+router.put("/:pid", checkRole(["admin","premiun"]) , (req,res)=>{
     res.send("producto agregado");
 });
 
-export { router as productsRouter}
+export { router as productsRouter }
