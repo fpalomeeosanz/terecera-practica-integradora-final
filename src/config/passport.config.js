@@ -11,9 +11,10 @@ const LocalStrategy = local.Strategy;
 const inicializePassport = () => {
 
     //PASSPORT LOCAL
-    passport.use("register", new LocalStrategy({
+    passport.use("signupStrategy", new LocalStrategy({
         passReqToCallback:true,
         usernameField:"email"},
+
         async ( req, username, password, done ) => {
         const { first_name, last_name, email, age } = req.body;
         try {
@@ -30,13 +31,15 @@ const inicializePassport = () => {
             }
             const cart = await cartsModel.create({});
             console.log(cart)
+
             const newUser = {
                 first_name,
                 last_name,
-                email,
+                email: username,
                 age,
                 cart: cart._id,
-                password: createHash(password)
+                password: createHash(password),
+                rol
             }
             console.log(newUser)
             const userCreated = await usersModel.create(newUser);
@@ -48,8 +51,9 @@ const inicializePassport = () => {
 
     }));
 
-    passport.use("login", new LocalStrategy(
-    {usernameField:"email"},
+    passport.use("loginStrategy", new LocalStrategy({
+    usernameField:"email"},
+    
     async (username, password, done)=>{
         try {
             const user = await usersModel.findOne({email:username})

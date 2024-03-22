@@ -3,29 +3,45 @@ import { verifyEmailTokenMW } from "../middlewares/auth.js";
 
 const router = Router();
 
-router.get("/",(req,res)=>{
+const publicAccess = (req,res,next) =>{
+    if(req.session.user){
+        return res.redirect('/');
+    }
+    next();
+}
+
+const privateAccess = (req,res,next) =>{
+    if(!req.session.user){
+        return res.redirect('/login');
+    }
+    next();
+}
+
+router.get('/register', publicAccess, (req,res)=>{
+    res.render('register')
+});
+
+router.get('/', publicAccess, (req,res)=>{
     res.render("home");
 });
 
-router.get("/registro",(req,res)=>{
-    res.render("registro")
+router.get('/login', publicAccess, (req,res)=>{
+    res.render('login')
 });
 
-router.get("/login",(req,res)=>{
-    res.render("login");
-});
-
-router.get("/perfil", (req,res)=>{
+router.get('/profile', (req,res)=>{
     res.send(`Bienvenido ${req.user.email} <a href="/">home</a>`);
 });
 
-router.get("/forgot-password", (req,res)=>{
-    res.render("forgotPassword")
-})
-
-router.get("/reset-password", verifyEmailTokenMW(), (req,res)=>{
+//aplicar
+router.get('/reset-password', verifyEmailTokenMW(), (req,res)=>{
     const token = req.query.token;
     res.render("resetPassword",{token})
 })
 
-export {router as viewsRouter};
+router.get('/resetPassword', publicAccess, (req,res)=>{
+    res.render("resetPassword");
+});
+
+
+export { router as viewsRouter };
