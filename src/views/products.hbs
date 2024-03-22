@@ -1,25 +1,23 @@
-
 <div>
-  <h1>Productos y Servicios</h1>
-  <ul class="productos">
+  <h1>Productos y servicios</h1>
+  <ul>
     {{#each productos}}
-    <li class="producto">
-      <img src="{{imagen}}" alt="{{nombre}}">
-      <h2>{{nombre}}</h2>
-      <p>{{descripcion}}</p>
-      <span class="precio">${{precio}}</span>
-    </li>
+      <li>
+        <h2>{{this.name}}</h2>
+        <p>{{this.description}}</p>
+        <img src="{{this.image}}" alt="{{this.name}}">
+      </li>
     {{/each}}
   </ul>
 
-  <div class="paginacion">
-    {{#if previousPage}}
-    <a href="/products?page={{previousPage}}">Página anterior</a>
-    {{/if}}
-
-    {{#if nextPage}}
-    <a href="/products?page={{nextPage}}">Página siguiente</a>
-    {{/if}}
-  </div>
+  {{#if pagination}}
+    <ul class="pagination">
+      <li><a href="?page={{pagination.prevPage}}">Anterior</a></li>
+      {{#each pagination.pages}}
+        <li><a href="?page={{this}}"> {{this}} </a></li>
+      {{/each}}
+      <li><a href="?page={{pagination.nextPage}}">Siguiente</a></li>
+    </ul>
+  {{/if}}
 </div>
 

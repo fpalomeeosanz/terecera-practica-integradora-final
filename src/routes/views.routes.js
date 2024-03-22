@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { verifyEmailTokenMW } from "../middlewares/auth.js";
 import usersModel from "../daos/models/usersModel.js";
+import productsModel from "../daos/models/productsModel.js";
 
 const router = Router();
 
@@ -57,8 +58,13 @@ router.get('/users', async (req,res) => {
     res.render("users", {users, isAdmin: true})
 });
 
-router.get('/products', async (req,res) => {
-    res.render("products");
+router.get('/products', async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10; 
+  
+    const productos = await productsModel.paginate({}, { page, limit });
+  
+    res.render('products', { productos });
 });
 
 export { router as viewsRouter };
