@@ -30,9 +30,9 @@ router.get('/login', publicAccess, (req,res)=>{
     res.render('login')
 });
 
-router.get('/profile', publicAccess, (req,res)=>{;
+router.get('/profile', (req,res)=>{;
     res.render('profile', {user:req.session.user})
-    //res.send(`Bienvenido ${req.user.email} <a href="/">home</a>`)
+    
 });
 
 router.get("/forgot-password", (req,res)=>{
@@ -46,7 +46,8 @@ router.get('/reset-password', verifyEmailTokenMW(), (req,res)=>{
 
 router.get("/current", (req, res) => {
     const user = req.user;
-    res.render("current", { user });
+    const { email, rol } = user; 
+    res.render("current", { user: { email, rol } }); 
 });
 
 router.get('/users', async (req,res) => {
