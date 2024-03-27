@@ -9,6 +9,8 @@ import passport from "passport";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import initializePassport from "./config/passport.config.js";
+import swaggerSpecs  from "../src/config/swaggerConfig.js"
+import swaggerUi from "swagger-ui-express";
 
 import { authRouter } from "./routes/auth.routes.js";
 import { cartsRouter } from "./routes/carts.routes.js";
@@ -57,3 +59,5 @@ app.use("/api/sessions", authRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/users", usersRouter);
+//SWAGGER
+app.use("/api/docs",swaggerUi.serve,swaggerUi.setup(swaggerSpecs));

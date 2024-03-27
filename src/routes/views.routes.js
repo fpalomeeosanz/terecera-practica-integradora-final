@@ -2,6 +2,7 @@ import { Router } from "express";
 import { verifyEmailTokenMW } from "../middlewares/auth.js";
 import usersModel from "../daos/models/usersModel.js";
 import productsModel from "../daos/models/productsModel.js";
+import { UserController } from "../controllers/users.controllres.js";
 
 const router = Router();
 
@@ -58,13 +59,20 @@ router.get('/users', async (req,res) => {
     res.render("users", {users, isAdmin: true})
 });
 
+router.get("/users/:uid", async (req, res) => {
+    const userId = req.params.uid;
+  
+    const user = await UserController.findById(userId);
+  
+    if (!user) {
+      return res.status(404).send("Usuario no encontrado");
+    }
+  
+    res.render("user-profile", { user });
+});
+
 router.get('/products', async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const limit = 10; 
-  
-    const productos = await productsModel.paginate({}, { page, limit });
-  
-    res.render('products', { productos });
+    res.render('products');
 });
 
 export { router as viewsRouter };

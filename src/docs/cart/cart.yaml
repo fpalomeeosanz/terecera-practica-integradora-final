@@ -1,0 +1,15 @@
+cart:
+type: object
+properties:
+    products:
+        type: array
+        items:
+            type: object
+            properties:
+                product:
+                type: string
+                format: ObjectId
+                description: ID del producto referenciado en productsModel
+                quantity:
+                    type: integer
+                    description: Cantidad del producto en el carrito

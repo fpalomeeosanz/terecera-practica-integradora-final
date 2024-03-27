@@ -1,0 +1,56 @@
+paths:
+  /carts:
+    get:
+      summary: Obtener todos los carritos
+      description: Obtiene una lista de todos los carritos creados.
+      responses:
+        "200":
+          description: Lista de carritos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/Cart'
+    post:
+      summary: Crear un nuevo carrito
+      description: Crea un nuevo carrito vacío.
+      responses:
+        "200":
+          description: Carrito creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Cart'
+  /carts/{id}:
+    put:
+      summary: Agregar producto a un carrito
+      description: Agrega un producto existente a un carrito identificado por su ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: string
+                  format: ObjectId
+                  description: ID del producto a agregar
+                quantity:
+                  type: integer
+                  description: Cantidad del producto a agregar
+      responses:
+        "200":
+          description: Producto agregado exitosamente
+        "400":
+          description: Error al agregar el producto
+    delete:
+      summary: Eliminar un carrito
+      description: Elimina un carrito por su ID.
+      responses:
+        "200":
+          description: Carrito eliminado
+        "404":
+          description: Carrito no encontrado
+

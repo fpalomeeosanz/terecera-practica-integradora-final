@@ -1,14 +1,14 @@
 <div>
-  <h1>Productos y servicios</h1>
-  <ul>
-    {{#each productos}}
-      <li>
-        <h2>{{this.name}}</h2>
-        <p>{{this.description}}</p>
-        <img src="{{this.image}}" alt="{{this.name}}">
-      </li>
-    {{/each}}
-  </ul>
+<h1>Listado de Productos</h1>
+<ul>
+  {{#each products}}
+    <li>
+      <h2>{{this.name}}</h2>
+      <p>{{this.description}}</p>
+      <a href="/products/{{this._id}}">Ver detalles</a>
+    </li>
+  {{/each}}
+</ul>
 
   {{#if pagination}}
     <ul class="pagination">

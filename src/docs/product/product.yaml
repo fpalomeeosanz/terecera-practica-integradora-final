@@ -1,0 +1,32 @@
+Product:
+    type: object
+    properties:
+        title:
+            type: string
+            description: Titulo del producto
+        price:
+            type: number
+            description: Precio del producto
+        description:
+            type: string
+            description: Descripción del producto
+        code:
+            type: string
+            description: Codigo del producto
+        stock:
+            type: number
+            description: Stock disponible del producto
+        image:
+            type: string
+            description: URL de la imagen del producto
+        category:
+            type: string
+            enum:
+                Hospedaje
+                Alimentacion
+                Experiencias
+            description: Categoría del producto
+        owner:
+            type: string
+            format: ObjectId
+            description: ID del usuario dueño del producto
